@@ -2,10 +2,7 @@ package br.com.albertopaim.apirest.products.controller;
 
 import br.com.albertopaim.apirest.products.model.Produto;
 import br.com.albertopaim.apirest.products.repository.ProductRepository;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -19,12 +16,28 @@ public class ControllerProduct {
     }
 
     @PostMapping
-    public void create(@RequestBody Produto produto) {
+    public Produto create(@RequestBody Produto produto) {
         var id = UUID.randomUUID();
         produto.setId(String.valueOf(id));
 
         productRepository.save(produto);
+        return produto;
 
-        System.out.println("Produto recebido" + produto);
+    }
+
+    @GetMapping("/{id}")
+    public Produto getProduct(@PathVariable String id){
+    return productRepository.findById(id).orElse(null);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteProduct(@PathVariable String id){
+    productRepository.deleteById(id);
+    }
+
+    @PutMapping("/{id}")
+    public void updateProduct(@PathVariable String id, @RequestBody Produto produto){
+    produto.setId(id);
+    productRepository.save(produto);
     }
 }
