@@ -1,9 +1,19 @@
 package br.com.albertopaim.apirest.products.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class Produto {
+    @Id
+    @Column
     private String id;
+    @Column
     private String name;
+    @Column
     private String description;
+    @Column
     private double price;
 
     @Override
